@@ -1,0 +1,7 @@
+src/AbstractGame.gs
+src/Color.gs
+src/Font.gs
+src/Sound.gs
+src/Sprite.gs
+src/Version.gs
+src/bosco.vala

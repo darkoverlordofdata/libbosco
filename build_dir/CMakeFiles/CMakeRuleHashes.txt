@@ -1,0 +1,3 @@
+# Hashes of file build rules.
+f4c650de28d4baa37d254c3688a28a58 src/Config.c
+2852d0450cdf11dd6535a39db896a899 src/bosco_valac.stamp

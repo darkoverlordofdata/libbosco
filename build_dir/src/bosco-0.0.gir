@@ -1,0 +1,907 @@
+<?xml version="1.0"?>
+<repository version="1.2" xmlns="http://www.gtk.org/introspection/core/1.0" xmlns:c="http://www.gtk.org/introspection/c/1.0" xmlns:glib="http://www.gtk.org/introspection/glib/1.0">
+<include name="GObject" version="2.0"/>
+<include name="GLib" version="2.0"/>
+<include name="Gee" version="0.8"/>
+<package name="bosco"/>
+<c:include name="bosco.h"/>
+<namespace name="bosco" version="0.0" c:prefix="boscoConstants">
+	<constant name="DATADIR" c:identifier="BOSCO_CONSTANTS_DATADIR" value="/usr/share">
+		<type name="utf8" c:type="const gchar*"/>
+	</constant>
+	<constant name="PKGDATADIR" c:identifier="BOSCO_CONSTANTS_PKGDATADIR" value="/usr/share/libbosco">
+		<type name="utf8" c:type="const gchar*"/>
+	</constant>
+	<constant name="GETTEXT_PACKAGE" c:identifier="BOSCO_CONSTANTS_GETTEXT_PACKAGE" value="libbosco">
+		<type name="utf8" c:type="const gchar*"/>
+	</constant>
+	<constant name="RELEASE_NAME" c:identifier="BOSCO_CONSTANTS_RELEASE_NAME" value="libbosco">
+		<type name="utf8" c:type="const gchar*"/>
+	</constant>
+	<constant name="VERSION" c:identifier="BOSCO_CONSTANTS_VERSION" value="0.0.1">
+		<type name="utf8" c:type="const gchar*"/>
+	</constant>
+</namespace>
+<c:include name="bosco.h"/>
+<namespace name="bosco" version="0.0" c:prefix="Bosco">
+	<class name="AbstractGame" c:type="BoscoAbstractGame" glib:type-name="BoscoAbstractGame" glib:get-type="bosco_abstract_game_get_type" glib:type-struct="AbstractGameClass" parent="GObject.Object">
+		<field name="parent_instance">
+			<type name="GObject.Object" c:type="GObject"/>
+		</field>
+		<field name="priv">
+			<type name="AbstractGamePrivate" c:type="BoscoAbstractGamePrivate*"/>
+		</field>
+		<field name="name">
+			<type name="utf8" c:type="gchar*"/>
+		</field>
+		<field name="width">
+			<type name="gint" c:type="gint"/>
+		</field>
+		<field name="height">
+			<type name="gint" c:type="gint"/>
+		</field>
+		<field name="defaultFont">
+			<type name="utf8" c:type="gchar*"/>
+		</field>
+		<field name="running">
+			<type name="gboolean" c:type="gboolean"/>
+		</field>
+		<field name="window">
+			<type name="SDL.VideoWindow" c:type="SDL_Window*"/>
+		</field>
+		<field name="renderer">
+			<type name="SDL.VideoRenderer" c:type="SDL_Renderer*"/>
+		</field>
+		<field name="sprites">
+			<array name="GLib.PtrArray" c:type="GPtrArray*">
+				<type name="Bosco.Sprite" c:type="BoscoSprite*"/>
+			</array>
+		</field>
+		<field name="onetime">
+			<type name="Gee.ArrayList" c:type="GeeArrayList*">
+				<type name="Bosco.Sprite" c:type="BoscoSprite*"/>
+			</type>
+		</field>
+		<field name="keys">
+			<array>
+				<type name="guint8" c:type="guint8"/>
+			</array>
+		</field>
+		<field name="showFps">
+			<type name="gboolean" c:type="gboolean"/>
+		</field>
+		<constructor name="new" c:identifier="bosco_abstract_game_new">
+			<return-value transfer-ownership="full">
+				<type name="Bosco.AbstractGame" c:type="BoscoAbstractGame*"/>
+			</return-value>
+		</constructor>
+		<method name="Run" c:identifier="bosco_abstract_game_Run">
+			<return-value transfer-ownership="full">
+				<type name="gint" c:type="gint"/>
+			</return-value>
+		</method>
+		<method name="Events" c:identifier="bosco_abstract_game_Events">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="e" transfer-ownership="none">
+					<type name="SDL.Event" c:type="SDL_Event"/>
+				</parameter>
+			</parameters>
+		</method>
+		<virtual-method name="Events" invoker="Events">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="e" transfer-ownership="none">
+					<type name="SDL.Event" c:type="SDL_Event"/>
+				</parameter>
+			</parameters>
+		</virtual-method>
+		<method name="Update" c:identifier="bosco_abstract_game_Update">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="delta" transfer-ownership="none">
+					<type name="gdouble" c:type="gdouble"/>
+				</parameter>
+			</parameters>
+		</method>
+		<virtual-method name="Update" invoker="Update">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="delta" transfer-ownership="none">
+					<type name="gdouble" c:type="gdouble"/>
+				</parameter>
+			</parameters>
+		</virtual-method>
+		<method name="Draw" c:identifier="bosco_abstract_game_Draw">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="delta" transfer-ownership="none">
+					<type name="gdouble" c:type="gdouble"/>
+				</parameter>
+			</parameters>
+		</method>
+		<virtual-method name="Draw" invoker="Draw">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="delta" transfer-ownership="none">
+					<type name="gdouble" c:type="gdouble"/>
+				</parameter>
+			</parameters>
+		</virtual-method>
+		<method name="Dispose" c:identifier="bosco_abstract_game_Dispose">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+		</method>
+		<virtual-method name="Dispose" invoker="Dispose">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+		</virtual-method>
+		<method name="Initialize" c:identifier="bosco_abstract_game_Initialize">
+			<return-value transfer-ownership="full">
+				<type name="gboolean" c:type="gboolean"/>
+			</return-value>
+		</method>
+		<virtual-method name="Initialize" invoker="Initialize">
+			<return-value transfer-ownership="full">
+				<type name="gboolean" c:type="gboolean"/>
+			</return-value>
+		</virtual-method>
+		<property name="delta">
+			<type name="gdouble" c:type="gdouble"/>
+		</property>
+		<method name="get_delta" c:identifier="bosco_abstract_game_get_delta">
+			<return-value transfer-ownership="none">
+				<type name="gdouble" c:type="gdouble"/>
+			</return-value>
+		</method>
+	</class>
+	<record name="AbstractGameClass" c:type="BoscoAbstractGameClass" glib:is-gtype-struct-for="AbstractGame">
+		<field name="parent_class">
+			<type name="GObject.ObjectClass" c:type="GObjectClass"/>
+		</field>
+				<field name="Events">
+			<callback name="Events" c:type="Events">
+				<return-value transfer-ownership="none">
+					<type name="none"/>
+				</return-value>
+				<parameters>
+					<parameter name="self" transfer-ownership="none">
+						<type name="Bosco.AbstractGame" c:type="BoscoAbstractGame*"/>
+					</parameter>
+					<parameter name="e" transfer-ownership="none">
+						<type name="SDL.Event" c:type="SDL_Event"/>
+					</parameter>
+				</parameters>
+			</callback>
+		</field>
+				<field name="Update">
+			<callback name="Update" c:type="Update">
+				<return-value transfer-ownership="none">
+					<type name="none"/>
+				</return-value>
+				<parameters>
+					<parameter name="self" transfer-ownership="none">
+						<type name="Bosco.AbstractGame" c:type="BoscoAbstractGame*"/>
+					</parameter>
+					<parameter name="delta" transfer-ownership="none">
+						<type name="gdouble" c:type="gdouble"/>
+					</parameter>
+				</parameters>
+			</callback>
+		</field>
+				<field name="Draw">
+			<callback name="Draw" c:type="Draw">
+				<return-value transfer-ownership="none">
+					<type name="none"/>
+				</return-value>
+				<parameters>
+					<parameter name="self" transfer-ownership="none">
+						<type name="Bosco.AbstractGame" c:type="BoscoAbstractGame*"/>
+					</parameter>
+					<parameter name="delta" transfer-ownership="none">
+						<type name="gdouble" c:type="gdouble"/>
+					</parameter>
+				</parameters>
+			</callback>
+		</field>
+				<field name="Dispose">
+			<callback name="Dispose" c:type="Dispose">
+				<return-value transfer-ownership="none">
+					<type name="none"/>
+				</return-value>
+				<parameters>
+					<parameter name="self" transfer-ownership="none">
+						<type name="Bosco.AbstractGame" c:type="BoscoAbstractGame*"/>
+					</parameter>
+				</parameters>
+			</callback>
+		</field>
+				<field name="Initialize">
+			<callback name="Initialize" c:type="Initialize">
+				<return-value transfer-ownership="full">
+					<type name="gboolean" c:type="gboolean"/>
+				</return-value>
+				<parameters>
+					<parameter name="self" transfer-ownership="none">
+						<type name="Bosco.AbstractGame" c:type="BoscoAbstractGame*"/>
+					</parameter>
+				</parameters>
+			</callback>
+		</field>
+	</record>
+	<record name="AbstractGamePrivate" c:type="BoscoAbstractGamePrivate" disguised="1"/>
+	<record name="Color">
+		<field name="bosco_color_TransparentBlack">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_TransparentWhite">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_AliceBlue">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_AntiqueWhite">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Aqua">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Aquamarine">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Azure">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Beige">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Bisque">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Black">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_BlanchedAlmond">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Blue">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_BlueViolet">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Brown">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_BurlyWood">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_CadetBlue">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Chartreuse">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Chocolate">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Coral">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_CornflowerBlue">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Cornsilk">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Crimson">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Cyan">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_DarkBlue">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_DarkCyan">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_DarkGoldenrod">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_DarkGray">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_DarkGreen">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_DarkKhaki">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_DarkMagenta">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_DarkOliveGreen">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_DarkOrange">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_DarkOrchid">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_DarkRed">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_DarkSalmon">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_DarkSeaGreen">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_DarkSlateBlue">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_DarkSlateGray">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_DarkTurquoise">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_DarkViolet">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_DeepPink">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_DeepSkyBlue">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_DimGray">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_DodgerBlue">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Firebrick">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_FloralWhite">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_ForestGreen">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Fuchsia">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Gainsboro">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_GhostWhite">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Gold">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Goldenrod">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Gray">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Green">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_GreenYellow">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Honeydew">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_HotPink">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_IndianRed">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Indigo">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Ivory">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Khaki">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Lavender">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_LavenderBlush">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_LawnGreen">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_LemonChiffon">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_LightBlue">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_LightCoral">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_LightCyan">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_LightGoldenrodYellow">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_LightGray">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_LightGreen">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_LightPink">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_LightSalmon">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_LightSeaGreen">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_LightSkyBlue">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_LightSlateGray">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_LightSteelBlue">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_LightYellow">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Lime">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_LimeGreen">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Linen">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Magenta">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Maroon">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_MediumAquamarine">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_MediumBlue">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_MediumOrchid">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_MediumPurple">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_MediumSeaGreen">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_MediumSlateBlue">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_MediumSpringGreen">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_MediumTurquoise">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_MediumVioletRed">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_MidnightBlue">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_MintCream">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_MistyRose">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Moccasin">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_MonoGameOrange">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_NavajoWhite">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Navy">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_OldLace">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Olive">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_OliveDrab">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Orange">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_OrangeRed">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Orchid">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_PaleGoldenrod">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_PaleGreen">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_PaleTurquoise">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_PaleVioletRed">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_PapayaWhip">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_PeachPuff">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Peru">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Pink">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Plum">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_PowderBlue">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Purple">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Red">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_RosyBrown">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_RoyalBlue">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_SaddleBrown">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Salmon">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_SandyBrown">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_SeaGreen">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_SeaShell">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Sienna">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Silver">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_SkyBlue">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_SlateBlue">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_SlateGray">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Snow">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_SpringGreen">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_SteelBlue">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Tan">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Teal">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Thistle">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Tomato">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Turquoise">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Violet">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Wheat">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_White">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_WhiteSmoke">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_Yellow">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="bosco_color_YellowGreen">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<constructor name="new" c:identifier="bosco_color_new">
+			<return-value transfer-ownership="full">
+				<type name="Bosco.Color" c:type="BoscoColor*"/>
+			</return-value>
+		</constructor>
+	</record>
+	<class name="Font" c:type="BoscoFont" glib:type-name="BoscoFont" glib:get-type="bosco_font_get_type" glib:type-struct="FontClass" parent="GObject.Object">
+		<field name="parent_instance">
+			<type name="GObject.Object" c:type="GObject"/>
+		</field>
+		<field name="priv">
+			<type name="FontPrivate" c:type="BoscoFontPrivate*"/>
+		</field>
+		<field name="innerFont">
+			<type name="SDLTTF.Font" c:type="TTF_Font*"/>
+		</field>
+		<method name="render" c:identifier="bosco_font_render">
+			<return-value transfer-ownership="full">
+				<type name="SDL.VideoSurface" c:type="SDL_Surface*"/>
+			</return-value>
+			<parameters>
+				<parameter name="text" transfer-ownership="none">
+					<type name="utf8" c:type="const gchar*"/>
+				</parameter>
+				<parameter name="color" transfer-ownership="none">
+					<type name="SDL.VideoColor" c:type="SDL_Color"/>
+				</parameter>
+			</parameters>
+		</method>
+		<function name="fromFile" c:identifier="bosco_font_fromFile">
+			<return-value transfer-ownership="full">
+				<type name="Bosco.Font" c:type="BoscoFont*"/>
+			</return-value>
+			<parameters>
+				<parameter name="path" transfer-ownership="none">
+					<type name="utf8" c:type="const gchar*"/>
+				</parameter>
+				<parameter name="size" transfer-ownership="none">
+					<type name="gint" c:type="gint"/>
+				</parameter>
+			</parameters>
+		</function>
+		<constructor name="new" c:identifier="bosco_font_new">
+			<return-value transfer-ownership="full">
+				<type name="Bosco.Font" c:type="BoscoFont*"/>
+			</return-value>
+		</constructor>
+	</class>
+	<record name="FontClass" c:type="BoscoFontClass" glib:is-gtype-struct-for="Font">
+		<field name="parent_class">
+			<type name="GObject.ObjectClass" c:type="GObjectClass"/>
+		</field>
+	</record>
+	<record name="FontPrivate" c:type="BoscoFontPrivate" disguised="1"/>
+	<class name="Sound" c:type="BoscoSound" glib:type-name="BoscoSound" glib:get-type="bosco_sound_get_type" glib:type-struct="SoundClass" parent="GObject.Object">
+		<field name="parent_instance">
+			<type name="GObject.Object" c:type="GObject"/>
+		</field>
+		<field name="priv">
+			<type name="SoundPrivate" c:type="BoscoSoundPrivate*"/>
+		</field>
+		<field name="chunk">
+			<type name="SDLMixer.Chunk" c:type="Mix_Chunk*"/>
+		</field>
+		<method name="play" c:identifier="bosco_sound_play">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="loops" transfer-ownership="none">
+					<type name="gint" c:type="gint"/>
+				</parameter>
+			</parameters>
+		</method>
+		<function name="fromFile" c:identifier="bosco_sound_fromFile">
+			<return-value transfer-ownership="full">
+				<type name="Bosco.Sound" c:type="BoscoSound*"/>
+			</return-value>
+			<parameters>
+				<parameter name="path" transfer-ownership="none">
+					<type name="utf8" c:type="const gchar*"/>
+				</parameter>
+			</parameters>
+		</function>
+		<constructor name="new" c:identifier="bosco_sound_new">
+			<return-value transfer-ownership="full">
+				<type name="Bosco.Sound" c:type="BoscoSound*"/>
+			</return-value>
+		</constructor>
+	</class>
+	<record name="SoundClass" c:type="BoscoSoundClass" glib:is-gtype-struct-for="Sound">
+		<field name="parent_class">
+			<type name="GObject.ObjectClass" c:type="GObjectClass"/>
+		</field>
+	</record>
+	<record name="SoundPrivate" c:type="BoscoSoundPrivate" disguised="1"/>
+	<class name="Sprite" c:type="BoscoSprite" glib:type-name="BoscoSprite" glib:get-type="bosco_sprite_get_type" glib:type-struct="SpriteClass" parent="GObject.Object">
+		<field name="parent_instance">
+			<type name="GObject.Object" c:type="GObject"/>
+		</field>
+		<field name="priv">
+			<type name="SpritePrivate" c:type="BoscoSpritePrivate*"/>
+		</field>
+		<field name="bosco_sprite_uniqueId">
+			<type name="gint" c:type="gint"/>
+		</field>
+		<field name="texture">
+			<type name="SDL.VideoTexture" c:type="SDL_Texture*"/>
+		</field>
+		<field name="width">
+			<type name="gint" c:type="gint"/>
+		</field>
+		<field name="height">
+			<type name="gint" c:type="gint"/>
+		</field>
+		<field name="x">
+			<type name="gint" c:type="gint"/>
+		</field>
+		<field name="y">
+			<type name="gint" c:type="gint"/>
+		</field>
+		<field name="scale">
+			<type name="Bosco.Scale" c:type="BoscoScale"/>
+		</field>
+		<field name="color">
+			<type name="SDL.VideoColor" c:type="SDL_Color"/>
+		</field>
+		<field name="centered">
+			<type name="gboolean" c:type="gboolean"/>
+		</field>
+		<field name="layer">
+			<type name="gint" c:type="gint"/>
+		</field>
+		<field name="id">
+			<type name="gint" c:type="gint"/>
+		</field>
+		<function name="fromRenderedText" c:identifier="bosco_sprite_fromRenderedText">
+			<return-value transfer-ownership="full" allow-none="1">
+				<type name="Bosco.Sprite" c:type="BoscoSprite*"/>
+			</return-value>
+			<parameters>
+				<parameter name="renderer" transfer-ownership="none">
+					<type name="SDL.VideoRenderer" c:type="SDL_Renderer*"/>
+				</parameter>
+				<parameter name="font" transfer-ownership="none">
+					<type name="Bosco.Font" c:type="BoscoFont*"/>
+				</parameter>
+				<parameter name="text" transfer-ownership="none">
+					<type name="utf8" c:type="const gchar*"/>
+				</parameter>
+				<parameter name="color" transfer-ownership="none">
+					<type name="SDL.VideoColor" c:type="SDL_Color"/>
+				</parameter>
+			</parameters>
+		</function>
+		<method name="setText" c:identifier="bosco_sprite_setText">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="renderer" transfer-ownership="none">
+					<type name="SDL.VideoRenderer" c:type="SDL_Renderer*"/>
+				</parameter>
+				<parameter name="font" transfer-ownership="none">
+					<type name="SDLTTF.Font" c:type="TTF_Font*"/>
+				</parameter>
+				<parameter name="text" transfer-ownership="none">
+					<type name="utf8" c:type="const gchar*"/>
+				</parameter>
+				<parameter name="color" transfer-ownership="none">
+					<type name="SDL.VideoColor" c:type="SDL_Color"/>
+				</parameter>
+			</parameters>
+		</method>
+		<function name="fromFile" c:identifier="bosco_sprite_fromFile">
+			<return-value transfer-ownership="full" allow-none="1">
+				<type name="Bosco.Sprite" c:type="BoscoSprite*"/>
+			</return-value>
+			<parameters>
+				<parameter name="renderer" transfer-ownership="none">
+					<type name="SDL.VideoRenderer" c:type="SDL_Renderer*"/>
+				</parameter>
+				<parameter name="path" transfer-ownership="none">
+					<type name="utf8" c:type="const gchar*"/>
+				</parameter>
+			</parameters>
+		</function>
+		<method name="render" c:identifier="bosco_sprite_render">
+			<return-value transfer-ownership="none">
+				<type name="none"/>
+			</return-value>
+			<parameters>
+				<parameter name="renderer" transfer-ownership="none">
+					<type name="SDL.VideoRenderer" c:type="SDL_Renderer*"/>
+				</parameter>
+				<parameter name="x" transfer-ownership="none">
+					<type name="gint" c:type="gint"/>
+				</parameter>
+				<parameter name="y" transfer-ownership="none">
+					<type name="gint" c:type="gint"/>
+				</parameter>
+				<parameter name="clip" transfer-ownership="none" allow-none="1">
+					<type name="SDL.VideoRect" c:type="SDL_Rect*"/>
+				</parameter>
+			</parameters>
+		</method>
+		<constructor name="new" c:identifier="bosco_sprite_new">
+			<return-value transfer-ownership="full">
+				<type name="Bosco.Sprite" c:type="BoscoSprite*"/>
+			</return-value>
+		</constructor>
+	</class>
+	<record name="SpriteClass" c:type="BoscoSpriteClass" glib:is-gtype-struct-for="Sprite">
+		<field name="parent_class">
+			<type name="GObject.ObjectClass" c:type="GObjectClass"/>
+		</field>
+	</record>
+	<record name="SpritePrivate" c:type="BoscoSpritePrivate" disguised="1"/>
+	<record name="Scale">
+		<field name="x">
+			<type name="gdouble" c:type="gdouble"/>
+		</field>
+		<field name="y">
+			<type name="gdouble" c:type="gdouble"/>
+		</field>
+	</record>
+	<constant name="VERSION" c:identifier="BOSCO_VERSION" value="0.0.1">
+		<type name="utf8" c:type="const gchar*"/>
+	</constant>
+</namespace>
+</repository>

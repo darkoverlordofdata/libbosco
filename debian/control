@@ -1,0 +1,51 @@
+Source: libbosco
+Priority: optional
+Section: libs
+Maintainer: bruce davidson <darkoverlordofdata@gmail.com>
+Build-Depends: build-essential, 
+                po-debconf, 
+                valac, 
+                libsdl2-image-dev, 
+                libsdl2-mixer-dev, 
+                libsdl2-ttf-dev, 
+                libgee-0.8-dev, 
+                libsdl2-dev, 
+                libglib2.0-dev, 
+                cmake, 
+                gettext, 
+                pkg-config, 
+                gcc, 
+                g++, 
+                make, 
+                intltool
+
+Package: libbosco
+Architecture: any
+Version: 0.0.1
+Depends: libsdl2-image-2.0-0, libsdl2-2.0-0, libsdl2-mixer-2.0-0, libsdl2-ttf-2.0-0, libgee-0.8-2, libglib2.0-0
+Description: Bosco Game Engine
+ Bosco Game Engine inspired by MonoGame
+ .
+ This package contains the shared library
+
+Package: libbosco-dev
+Section: libdevel
+Architecture: any
+Version: 0.0.1
+Depends: libsdl2-image-2.0-0, libsdl2-2.0-0, libsdl2-mixer-2.0-0, libsdl2-ttf-2.0-0, libgee-0.8-2, libglib2.0-0
+Description: Bosco Game Engine
+ Bosco Game Engine inspired by MonoGame
+ .
+ This package contains files needed if you wish to use the entitas library in your own programs.
+
+Package: libbosco-dbg
+Priority: extra
+Section: debug
+Architecture: any
+Version: 0.0.1
+Depends: libsdl2-image-2.0-0, libsdl2-2.0-0, libsdl2-mixer-2.0-0, libsdl2-ttf-2.0-0, libgee-0.8-2, libglib2.0-0
+Description: Bosco Game Engine
+ Bosco Game Engine inspired by MonoGame
+ .
+ This package contains the debug symbols for the bosco library.
+
