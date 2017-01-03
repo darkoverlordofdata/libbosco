@@ -2,6 +2,11 @@
 
 Bosco tries to tie together and fill in the gaps in the SDL2 library, somewhat like MonoGame.
 
+## status
+
+work in progress
+
+
 ## install
 
 ```
