@@ -1,8 +1,0 @@
-/usr/lib/x86_64-linux-gnu/libbosco.so.0.0.1
-/usr/lib/x86_64-linux-gnu/libbosco.so.0
-/usr/lib/x86_64-linux-gnu/libbosco.so
-/usr/include/bosco.h
-/usr/share/vala/vapi/bosco.vapi
-/usr/share/vala/vapi/bosco.deps
-/usr/share/gir-1.0/bosco-0.0.gir
-/usr/lib/x86_64-linux-gnu/pkgconfig/bosco.pc
