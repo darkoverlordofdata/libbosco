@@ -40,5 +40,15 @@ namespace Bosco
             else
                 fx.innerFont = new SDLTTF.Font(path, size)
 
+                // print "Path %s", path
+
+                // var rw = new RWops.from_file(path, "rb")
+                // if rw == null
+                //     print "RW is null"
+                // fx.innerFont = new SDLTTF.Font.RW(rw, 0, size)
+                // if fx.innerFont == null
+                //     print "error loading font %s", SDL.get_error()
+                //     fx.innerFont = new SDLTTF.Font(path, size)
+
             return fx
 

@@ -25,7 +25,6 @@ namespace Bosco
 
     class Sprite : Object
         uniqueId : static int = 0
-
         texture : Video.Texture
         width : int
         height : int
@@ -45,7 +44,7 @@ namespace Bosco
         layer : int = 0
         id : int = ++uniqueId
 
-        def static fromRenderedText(renderer : Video.Renderer, font : Bosco.Font, text : string, color : Video.Color) : Sprite?
+        def static fromRenderedText(renderer: Video.Renderer, font : Bosco.Font, text : string, color : Video.Color) : Sprite?
             var mt = new Sprite()
             var textSurface = font.render(text, color)
 
@@ -62,7 +61,7 @@ namespace Bosco
                     mt.height = textSurface.h
             return mt
 
-        def setText(renderer : Video.Renderer, font : SDLTTF.Font, text : string, color : Video.Color)
+        def setText(renderer: Video.Renderer, font : SDLTTF.Font, text : string, color : Video.Color)
             var textSurface = font.render(text, color)
 
             if textSurface == null
@@ -76,8 +75,36 @@ namespace Bosco
                     this.width = textSurface.w
                     this.height = textSurface.h
 
+        def static fromAtlas(renderer: Video.Renderer, window: Video.Window, atlas: TextureAtlas, name : string) : Sprite?
+            var SDL_SRCALPHA  =  (uint32)0x00010000
+            var rmask = (uint32)0x000000ff
+            var gmask = (uint32)0x0000ff00
+            var bmask = (uint32)0x00ff0000
+            var amask = (uint32)0xff000000
 
-        def static fromFile(renderer : Video.Renderer, path : string) : Sprite?
+            // rmask = 0xff000000;
+            // gmask = 0x00ff0000;
+            // bmask = 0x0000ff00;
+            // amask = 0x000000ff;
+
+
+            for region in atlas.regions
+                if region.name == name
+                    var newSurface = new Video.Surface.legacy_rgb(SDL_SRCALPHA, region.width, region.height, 
+                            32, rmask, gmask, bmask, amask)
+                    var mt = new Sprite()
+                    // copyex from the parent to the newSurface
+                    srcrect: Video.Rect = {region.top, region.left, region.width, region.height} 
+                    dstrect: Video.Rect = {0, 0, region.width, region.height}
+                    region.texture.data.blit(srcrect, newSurface, dstrect)
+                    mt.texture = Video.Texture.create_from_surface(renderer, newSurface)
+                    mt.texture.set_blend_mode(Video.BlendMode.BLEND)
+                    mt.width = newSurface.w
+                    mt.height = newSurface.h
+                    return mt
+            return null
+
+        def static fromFile(renderer: Video.Renderer, path: string) : Sprite?
             loadedSurface: Video.Surface
             var mt = new Sprite()
 
@@ -107,7 +134,7 @@ namespace Bosco
             return mt
 
 
-        def render(renderer : Video.Renderer, x : int, y : int, clip : Video.Rect? = null)
+        def render(renderer: Video.Renderer, x : int, y : int, clip : Video.Rect? = null)
             var w = (int)((clip == null ? width : clip.w) * scale.x)
             var h = (int)((clip == null ? height : clip.h) * scale.y)
 
@@ -115,7 +142,6 @@ namespace Bosco
             y = centered ? y-(h/2) : y
 
             texture.set_color_mod(color.r, color.g, color.b)
-
             renderer.copy(texture, null, {x, y, w, h})
 
 

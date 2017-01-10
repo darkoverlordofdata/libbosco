@@ -48,6 +48,7 @@ namespace Bosco
         _t3: double = 0.0
 
         construct() // initialize bosco
+            print "initialize bosco"
             new Bosco.Color()
 
 
@@ -93,7 +94,7 @@ namespace Bosco
                         _frames = 0
 
                     if _fpsSprite != null do _fpsSprite = null
-                    _fpsSprite = Sprite.fromRenderedText(renderer, _fpsFont, "%2.2f".printf(_currentFps), {250, 250, 250})
+                    _fpsSprite = Sprite.fromRenderedText(this.renderer, _fpsFont, "%2.2f".printf(_currentFps), {250, 250, 250})
                     _fpsSprite.centered = false
 
                 //stdout.printf("%f\n", (_t2-_t1))
@@ -113,12 +114,12 @@ namespace Bosco
 
             for var i=0 to (sprites.length-1)
                 var sprite = sprites[i]
-                sprite.render(renderer, sprite.x, sprite.y)
+                sprite.render(this.renderer, sprite.x, sprite.y)
 
-            if showFps do _fpsSprite.render(renderer, 0, 0)
+            if showFps do _fpsSprite.render(this.renderer, 0, 0)
 
             for var sprite in onetime  
-                sprite.render(renderer, sprite.x, sprite.y)
+                sprite.render(this.renderer, sprite.x, sprite.y)
                 
             onetime = new list of Sprite           
             renderer.present()

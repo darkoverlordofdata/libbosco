@@ -3,4 +3,4 @@
 
 include (Translations)
 add_translations_directory("libbosco")
-add_translations_catalog("libbosco" ../src )
+add_translations_catalog("libbosco" ../src ../src/Atlas )
