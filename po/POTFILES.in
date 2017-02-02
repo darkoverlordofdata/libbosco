@@ -1,6 +1,6 @@
 src/AbstractGame.gs
-src/Atlas/AtlasData.gs
 src/Atlas/Texture.gs
+src/Atlas/TextureAtlas.gs
 src/Atlas/TextureEnums.vala
 src/Atlas/TextureRegion.gs
 src/Color.gs

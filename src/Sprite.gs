@@ -1,7 +1,7 @@
 /**
  * Sprite.gs
  *
- * Wrapper for SDLImage surface
+ * Wrapper for Texture with a Surface
  *
  * Copyright 2016 Dark Overlord of Data
  * This library is free software; you can redistribute it and/or
@@ -11,7 +11,6 @@
  *      bruce davidson
  */
 [indent=4]
-
 uses SDL
 uses SDLImage
 uses SDLTTF
@@ -44,25 +43,118 @@ namespace Bosco
         layer : int = 0
         id : int = ++uniqueId
 
+        /**
+         * Don't allow free-range sprites
+         */
+        construct private()
+            pass
+
+        /**
+         *  Create a sprite from text
+         *
+         * @param renderer video context
+         * @param font used to generate text
+         * @param text string of text to generate
+         * @param color foregound text color (background transparent)
+         * @return new Sprite
+         */
         def static fromRenderedText(renderer: Video.Renderer, font : Bosco.Font, text : string, color : Video.Color) : Sprite?
-            var mt = new Sprite()
+            var sprite = new Sprite()
             var textSurface = font.render(text, color)
 
             if textSurface == null
                 print "Unable to render text surface!"
                 return null
             else
-                mt.texture = Video.Texture.create_from_surface(renderer, textSurface)
-                if mt.texture == null
+                sprite.texture = Video.Texture.create_from_surface(renderer, textSurface)
+                if sprite.texture == null
                     print "Unable to create texture from rendered text! SDL Error: %s", SDL.get_error()
                     return null
                 else
-                    mt.width = textSurface.w
-                    mt.height = textSurface.h
-            return mt
+                    sprite.width = textSurface.w
+                    sprite.height = textSurface.h
+            return sprite
 
-        def setText(renderer: Video.Renderer, font : SDLTTF.Font, text : string, color : Video.Color)
-            var textSurface = font.render(text, color)
+        /**
+         *  Extract a sprite from atlas
+         *
+         * @param renderer video context
+         * @param atlas libgdx format sprite pack
+         * @param name of the sprite to extract
+         * @return new Sprite
+         */
+        def static fromAtlas(renderer: Video.Renderer, atlas: TextureAtlas, name : string) : Sprite?
+            var flags = (uint32)0x00010000  // SDL_SRCALPHA
+            var rmask = (uint32)0x000000ff  
+            var gmask = (uint32)0x0000ff00
+            var bmask = (uint32)0x00ff0000
+            var amask = (uint32)0xff000000
+
+            for region in atlas.regions
+                if region.name == name
+                    var x = region.top
+                    var y = region.left
+                    var w = region.width
+                    var h = region.height
+                    var surface = new Video.Surface.legacy_rgb(flags, region.width, region.height, 
+                            32, rmask, gmask, bmask, amask)
+                    region.texture.data.blit({x, y, w, h}, surface, {0, 0, w, h})
+                    var sprite = new Sprite()
+                    sprite.texture = Video.Texture.create_from_surface(renderer, surface)
+                    sprite.texture.set_blend_mode(Video.BlendMode.BLEND)
+                    sprite.width = surface.w
+                    sprite.height = surface.h
+                    return sprite
+            return null
+
+        /**
+         *  load a sprite from a file or resource
+         *
+         * @param renderer video context
+         * @param path of the sprite file or resource
+         * @return new Sprite
+         */
+        def static fromFile(renderer: Video.Renderer, path: string) : Sprite?
+            surface: Video.Surface
+            var sprite = new Sprite()
+
+            if path.index_of("resource:///") == 0
+                try
+                    var ptr  = GLib.resources_lookup_data(path.substring(11), 0)
+                    var rw = new RWops.from_mem((void*)ptr.get_data(), (int)ptr.get_size())
+                    surface = new Video.Surface.from_bmp_rw(rw)
+                except e: Error
+                    surface = null
+                    print "Error loading resource: %s\n", e.message
+                    return null
+
+            else
+                surface = SDLImage.load(path)
+
+            if surface == null
+                print "Unable to load image! SDL Error: %s", SDL.get_error()
+                return null
+             else
+                sprite.texture = Video.Texture.create_from_surface(renderer, surface)
+                sprite.texture.set_blend_mode(Video.BlendMode.BLEND)
+                if sprite.texture == null
+                    print "Unable to create texture from %s! SDL Error: %s", path, SDL.get_error()
+                 else
+                    sprite.width = surface.w
+                    sprite.height = surface.h
+            return sprite
+
+
+        /**
+         *  Change the text value of a Sprite.fromRenderedText
+         *
+         * @param renderer video context
+         * @param font used to generate text
+         * @param text string of text to generate
+         * @param color foregound text color (background transparent)
+         */
+        def setText(renderer: Video.Renderer, font : Bosco.Font, text : string, color : Video.Color)
+            var textSurface = font.innerFont.render(text, color)
 
             if textSurface == null
                 print "Unable to render text surface"
@@ -75,73 +167,26 @@ namespace Bosco
                     this.width = textSurface.w
                     this.height = textSurface.h
 
-        def static fromAtlas(renderer: Video.Renderer, window: Video.Window, atlas: TextureAtlas, name : string) : Sprite?
-            var SDL_SRCALPHA  =  (uint32)0x00010000
-            var rmask = (uint32)0x000000ff
-            var gmask = (uint32)0x0000ff00
-            var bmask = (uint32)0x00ff0000
-            var amask = (uint32)0xff000000
-
-            // rmask = 0xff000000;
-            // gmask = 0x00ff0000;
-            // bmask = 0x0000ff00;
-            // amask = 0x000000ff;
-
-
-            for region in atlas.regions
-                if region.name == name
-                    var newSurface = new Video.Surface.legacy_rgb(SDL_SRCALPHA, region.width, region.height, 
-                            32, rmask, gmask, bmask, amask)
-                    var mt = new Sprite()
-                    // copyex from the parent to the newSurface
-                    srcrect: Video.Rect = {region.top, region.left, region.width, region.height} 
-                    dstrect: Video.Rect = {0, 0, region.width, region.height}
-                    region.texture.data.blit(srcrect, newSurface, dstrect)
-                    mt.texture = Video.Texture.create_from_surface(renderer, newSurface)
-                    mt.texture.set_blend_mode(Video.BlendMode.BLEND)
-                    mt.width = newSurface.w
-                    mt.height = newSurface.h
-                    return mt
-            return null
-
-        def static fromFile(renderer: Video.Renderer, path: string) : Sprite?
-            loadedSurface: Video.Surface
-            var mt = new Sprite()
-
-            if path.index_of("resource:///") == 0
-                try
-                    var ptr  = GLib.resources_lookup_data(path.substring(11), 0)
-                    var rw = new RWops.from_mem((void*)ptr.get_data(), (int)ptr.get_size())
-                    loadedSurface = new Video.Surface.from_bmp_rw(rw)
-                except e: Error
-                    loadedSurface = null
-                    print "Error loading resource: %s\n", e.message
-
-            else
-                loadedSurface = SDLImage.load(path)
-
-            if loadedSurface == null
-                print "Unable to load image! SDL Error: %s", SDL.get_error()
-                return null
-             else
-                mt.texture = Video.Texture.create_from_surface(renderer, loadedSurface)
-                mt.texture.set_blend_mode(Video.BlendMode.BLEND)
-                if mt.texture == null
-                    print "Unable to create texture from %s! SDL Error: %s", path, SDL.get_error()
-                 else
-                    mt.width = loadedSurface.w
-                    mt.height = loadedSurface.h
-            return mt
-
-
+        /**
+         *  Render the sprite on the Video.Renderer context
+         *
+         * @param renderer video context
+         * @param x display coordinate
+         * @param y display coordinate
+         * @param clip optional clipping rectangle
+         */
         def render(renderer: Video.Renderer, x : int, y : int, clip : Video.Rect? = null)
+            /* do clipping? */
             var w = (int)((clip == null ? width : clip.w) * scale.x)
             var h = (int)((clip == null ? height : clip.h) * scale.y)
 
+            /* center in display? */
             x = centered ? x-(w/2) : x
             y = centered ? y-(h/2) : y
 
+            /* apply current tint */
             texture.set_color_mod(color.r, color.g, color.b)
+            /* copy to the rendering context */
             renderer.copy(texture, null, {x, y, w, h})
 
 

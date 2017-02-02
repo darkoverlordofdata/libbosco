@@ -14,6 +14,9 @@ uses SDL
 
 namespace Bosco
 
+    /**
+     * Define standard color rgba values
+     */
     class Color
         TransparentBlack: static Video.Color = Video.Color() {b = 0x00, g = 0x00, r = 0x00, a = 0x00};
         TransparentWhite: static Video.Color = Video.Color() {b = 0xFF, g = 0xFF, r = 0xFF, a = 0xFF};

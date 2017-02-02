@@ -22,9 +22,15 @@ namespace Bosco
 
         innerFont : SDLTTF.Font
 
-        def render(text : string, color : Video.Color) : Video.Surface
-            return innerFont.render(text, color)
-            
+        /**
+         *  load a sound effect from a file or resource
+         *
+         *  Note - resource not working, causes seg fault
+         *
+         * @param path of the font file or resource
+         * @param size of the font in points
+         * @return new Font
+         */
         def static fromFile(path: string, size: int) : Font
 
             var fx = new Font()
@@ -40,15 +46,15 @@ namespace Bosco
             else
                 fx.innerFont = new SDLTTF.Font(path, size)
 
-                // print "Path %s", path
-
-                // var rw = new RWops.from_file(path, "rb")
-                // if rw == null
-                //     print "RW is null"
-                // fx.innerFont = new SDLTTF.Font.RW(rw, 0, size)
-                // if fx.innerFont == null
-                //     print "error loading font %s", SDL.get_error()
-                //     fx.innerFont = new SDLTTF.Font(path, size)
-
             return fx
 
+        /**
+         *  Render text for Sprite.fromRenderedText
+         *
+         * @param text to generate surface from
+         * @param color foreground color of text
+         * @return new Surface
+         */
+        def render(text : string, color : Video.Color) : Video.Surface
+            return innerFont.render(text, color)
+            

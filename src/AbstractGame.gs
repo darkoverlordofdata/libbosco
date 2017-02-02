@@ -10,15 +10,16 @@
  */
 [indent=4]
 uses SDL
-uses SDLMixer    
 uses SDL.Input
 uses SDL.Video
+uses SDLMixer    
 uses SDLTTF
 
 namespace Bosco
 
-
-
+    /**
+     * Initialize SDL and manage game loop life cycle
+     */
     class AbstractGame : Object
 
         name : string
@@ -43,46 +44,41 @@ namespace Bosco
         _elapsed: double = 0.0
         _frames: int = 0
 
-        _t1: double = 0.0
-        _t2: double = 0.0
-        _t3: double = 0.0
-
         construct() // initialize bosco
             print "initialize bosco"
             new Bosco.Color()
 
-
+        /**
+         * Run - start the game loop
+         */
         def Run() : int
-
-
             if Initialize() == false
                 return -1
 
-            e : Event
+            evt : Event
             _currentTime = (double)GLib.get_real_time()/1000000.0 
             while running
-                while Event.poll(out e) != 0
-                    case e.type // patch for keyboardGetState
+                while Event.poll(out evt) != 0
+                    case evt.type // patch for keyboardGetState
                         when  SDL.EventType.KEYDOWN
-                            keys[e.key.keysym.sym] = 1
+                            keys[evt.key.keysym.sym] = 1
                         when  SDL.EventType.KEYUP
-                            keys[e.key.keysym.sym] = 0
+                            keys[evt.key.keysym.sym] = 0
 
-                    Events(e)
+                    /* Callback to event processor */
+                    Events(evt)
 
-
+                /* calculate time */
                 _lastTime = _currentTime
                 _currentTime = (double)GLib.get_real_time()/1000000.0
                 _delta = (_currentTime - _lastTime)
 
-                _t1 = (double)GLib.get_real_time()/1000000.0 
-
+                /* Callback to update game logic/physics */
                 Update(_delta)
-                _t2 = (double)GLib.get_real_time()/1000000.0 
-                GLib.Thread.usleep(1000)
+                /* yield to events */
+                GLib.Thread.usleep(1000) 
+                /* Callback to draw the game */
                 Draw(_delta)
-                _t3 = (double)GLib.get_real_time()/1000000.0 
-
                 
                 if showFps
                     _frames++
@@ -97,17 +93,31 @@ namespace Bosco
                     _fpsSprite = Sprite.fromRenderedText(this.renderer, _fpsFont, "%2.2f".printf(_currentFps), {250, 250, 250})
                     _fpsSprite.centered = false
 
-                //stdout.printf("%f\n", (_t2-_t1))
-
+            /* Cleanup */
             Dispose()
             return 0
 
+        /**
+         * Events callback
+         *
+         * @param event
+         */
         def virtual Events(e: Event)
             pass
 
+        /**
+         * Update callback
+         *
+         * @param delta ms
+         */
         def virtual Update(delta: double)
             pass
 
+        /**
+         * Draw the current frame
+         *
+         * @param delta ms
+         */
         def virtual Draw(delta: double)
             renderer.set_draw_color(0x0, 0x0, 0x0, 0x0)
             renderer.clear()
@@ -124,6 +134,9 @@ namespace Bosco
             onetime = new list of Sprite           
             renderer.present()
 
+        /**
+         * Do the cleanup callback
+         */
         def virtual Dispose()
             pass
 
@@ -166,7 +179,6 @@ namespace Bosco
                     print "Failed to load font, showFps set to false. SDL Error: %s", SDL.get_error()
                 else
                     showFps = true
-
             
             /**
              * TODO: calculate best values for mixer.open

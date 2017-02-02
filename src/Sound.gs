@@ -22,9 +22,12 @@ namespace Bosco
 
         chunk : Chunk
 
-        def play(loops: int = 0)
-            SDLMixer.play(-1, chunk, loops)
-
+        /**
+         *  load a sound effect from a file or resource
+         *
+         * @param path of the sprite file or resource
+         * @return new Sound
+         */
         def static fromFile(path: string) : Sound
 
             var fx = new Sound()
@@ -43,3 +46,11 @@ namespace Bosco
             return fx
 
         
+        /**
+         *  Render (Play) the sound
+         *
+         * @param loops to repeat
+         */
+        def play(loops: int = 0)
+            SDLMixer.play(-1, chunk, loops)
+

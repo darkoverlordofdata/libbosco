@@ -17,8 +17,8 @@ vala_check_package: sdl2
 *vala_check_package: glib-2.0
 *vala_check_package: gobject-2.0
 *vala_source: AbstractGame.gs
-*vala_source: Atlas/AtlasData.gs
 *vala_source: Atlas/Texture.gs
+*vala_source: Atlas/TextureAtlas.gs
 *vala_source: Atlas/TextureEnums.vala
 *vala_source: Atlas/TextureRegion.gs
 *vala_source: Color.gs
@@ -32,8 +32,8 @@ vala_check_package: sdl2
 *po: po
 
 *translate: genie src/AbstractGame.gs
-*translate: genie src/Atlas/AtlasData.gs
 *translate: genie src/Atlas/Texture.gs
+*translate: genie src/Atlas/TextureAtlas.gs
 *translate: vala src/Atlas/TextureEnums.vala
 *translate: genie src/Atlas/TextureRegion.gs
 *translate: genie src/Color.gs

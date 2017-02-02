@@ -1,4 +1,14 @@
 [indent=4]
+/**
+ * Texture.gs
+ *
+ * Copyright 2016 Dark Overlord of Data
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the he MIT License (MIT).
+ *
+ * Author: 
+ *      bruce davidson
+ */
 uses Gee
 uses SDL
 uses SDLImage
@@ -8,7 +18,7 @@ uses GLib
 namespace Bosco
 
     class Texture : Object
-        data: SDL.Video.Surface
+        data: Video.Surface
         prop path: string
         prop width: int
             get
@@ -18,7 +28,6 @@ namespace Bosco
                 return data.h
         construct(path: string)
             _path = path
-            print "Texture: %s", _path
             if _path.index_of("resource:///") == 0
                 try
                     var ptr  = GLib.resources_lookup_data(_path.substring(11), 0)
@@ -31,9 +40,6 @@ namespace Bosco
 
             else
                 data = SDLImage.load(_path)
-
-            print "Texture (%d,%d)", data.h, data.w
-            
 
         def setFilter(minFilter: int, magFilter: int)
             pass
